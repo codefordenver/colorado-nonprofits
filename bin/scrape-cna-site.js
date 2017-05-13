@@ -6,6 +6,19 @@ const cheerio = require('cheerio');
 const fetch = require('node-fetch');
 const promisify = require('es6-promisify');
 
+// utility helpers
+function range(n) {
+  return Array.from(new Array(n).keys());
+}
+
+function partitionAll(arr, size) {
+  const partitions = [];
+  for (let i = 0; i < arr.length; i += size) {
+    partitions.push(arr.slice(i, i + size));
+  }
+  return partitions;
+}
+
 async function getDetailPageInfo(link) {
   const url = `https://www.coloradononprofits.org${link}`;
   const req = await fetch(url);
@@ -36,27 +49,26 @@ async function getPageOfOrgsInfo(page) {
   return Promise.all(links.map(link => getDetailPageInfo(link)));
 }
 
-function range(n) {
-  return Array.from(new Array(n).keys());
-}
-
-async function getMultiplePagesOfOrgInfo(numOfPages) {
-  const pageIndexes = range(numOfPages);
+async function getMultiplePagesOfOrgInfo(numOfPages, batchSize = 5) {
+  const batchIndexes = partitionAll(range(numOfPages), batchSize);
   let pagesDownloaded = 0;
   let allOrgData = [];
-  const operationPromises = [];
 
-  pageIndexes.forEach(async idx => {
-    const dataPromise = getPageOfOrgsInfo(idx);
-    operationPromises.push(dataPromise);
+  for (let pageIndexes of batchIndexes) {
+    const batchPromises = [];
+    pageIndexes.forEach(async idx => {
+      const dataPromise = getPageOfOrgsInfo(idx);
+      batchPromises.push(dataPromise);
 
-    const pageOfOrgsInfo = await dataPromise;
-    allOrgData = allOrgData.concat(pageOfOrgsInfo);
-    pagesDownloaded += 1;
-    console.log(`Downloaded ${pagesDownloaded} pages of ${numOfPages}`);
-  });
+      const pageOfOrgsInfo = await dataPromise;
+      allOrgData = allOrgData.concat(pageOfOrgsInfo);
+      pagesDownloaded += 1;
+      console.log(`Downloaded ${pagesDownloaded} pages of ${numOfPages}`);
+    });
 
-  await Promise.all(operationPromises);
+    await Promise.all(batchPromises); // only send batch size of requests in parallel at a time
+  }
+
   return allOrgData;
 }
 
@@ -76,6 +88,7 @@ async function writePagesOfDataToAFile(numOfPagesToDownload) {
   }
 }
 
-writePagesOfDataToAFile(2);
+const pagesOfOrgsToScrape = 78;
+writePagesOfDataToAFile(pagesOfOrgsToScrape);
 
 
