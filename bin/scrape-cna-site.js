@@ -13,6 +13,7 @@ async function getDetailPageInfo(link) {
   const $ = cheerio.load(html);
   const data = {
     ['colorado nonprofit url']: url,
+    name: $('#page-title').text(),
   };
   $('.view-content .field-content').each((i, v) => {
     const key = $(v).parent().attr('class').split(/\s/)[1].slice('views-field-'.length);
@@ -64,7 +65,7 @@ const writeFile = promisify(fs.writeFile);
 async function writePagesOfDataToAFile(numOfPagesToDownload) {
   const allOrgData = await getMultiplePagesOfOrgInfo(numOfPagesToDownload);
 
-  const fileContent = JSON.stringify(allOrgData);
+  const fileContent = JSON.stringify(allOrgData, null, 2);
   const filePath = path.join(__dirname, '../public/data/nonprofits.json');
   try {
     await writeFile(filePath, fileContent);

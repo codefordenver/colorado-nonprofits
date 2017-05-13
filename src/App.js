@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -18,13 +17,14 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h2>Colorado Nonprofits</h2>
         </div>
         <div className="App-intro">
           {this.state.data.map(org => (
-            <div>
-              {org.url}
+            <div className="App-org" key={org.name}>
+              <a href={org.url}>
+                {org.name}
+              </a>
             </div>
           ))}
         </div>
