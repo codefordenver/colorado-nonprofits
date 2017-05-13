@@ -1,0 +1,20 @@
+{
+  "name": "colorado-nonprofits",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "ISC",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">7.6.0"
+  },
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "es6-promisify": "^5.0.0",
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  }
+}
