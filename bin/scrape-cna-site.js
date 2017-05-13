@@ -65,7 +65,7 @@ async function writePagesOfDataToAFile(numOfPagesToDownload) {
   const allOrgData = await getMultiplePagesOfOrgInfo(numOfPagesToDownload);
 
   const fileContent = JSON.stringify(allOrgData);
-  const filePath = path.join(__dirname, 'data/nonprofits.json');
+  const filePath = path.join(__dirname, '../public/data/nonprofits.json');
   try {
     await writeFile(filePath, fileContent);
     console.log(`Successfully wrote ${filePath}`)

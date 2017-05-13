@@ -1,20 +1,28 @@
 {
   "name": "colorado-nonprofits",
   "version": "0.0.1",
-  "main": "index.js",
+  "private": true,
   "license": "ISC",
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "scrape-data": "node ./bin/scrape-cna-site.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "engines": {
     "node": ">7.6.0"
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "es6-promisify": "^5.0.0",
-    "node-fetch": "^1.6.3"
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
   },
   "devDependencies": {
-    "eslint": "^3.19.0"
+    "cheerio": "^0.22.0",
+    "es6-promisify": "^5.0.0",
+    "eslint": "^3.19.0",
+    "node-fetch": "^1.6.3",
+    "react-scripts": "0.9.5"
   }
 }
