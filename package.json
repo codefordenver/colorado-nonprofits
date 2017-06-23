@@ -9,6 +9,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "engines": {
@@ -22,7 +24,9 @@
     "cheerio": "^0.22.0",
     "es6-promisify": "^5.0.0",
     "eslint": "^3.19.0",
+    "gh-pages": "^1.0.0",
     "node-fetch": "^1.6.3",
     "react-scripts": "0.9.5"
-  }
+  },
+  "homepage": "https://codefordenver.github.io/colorado-nonprofits"
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getBaseUrlPath } from './utils';
 import './App.css';
 
 class App extends Component {
@@ -8,7 +9,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('/data/nonprofits.json')
+    fetch(`${getBaseUrlPath()}/data/nonprofits.json`)
       .then(res => res.json())
       .then(data => this.setState({ data }));
   }
